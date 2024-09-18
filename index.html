@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jquery</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+
+    <header id="main-header">
+        <nav>
+            <ul class="nav-links">
+                <li><a href="#">Home</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Services</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+        </nav>
+        <div class="menu-toggle">&#9776;</div>
+    </header>
+
+    <section id="banner">
+        <h1 class="headline">Welcome to the Flipkart</h1>
+    </section>
+
+    <section id="sale-timer">
+        <h2>Sale Ends In:</h2>
+        <div id="countdown">
+            <div><span id="days">00</span>Days</div>
+            <div><span id="hours">00</span>Hours</div>
+            <div><span id="minutes">00</span>Minutes</div>
+            <div><span id="seconds">00</span>Seconds</div>
+        </div>
+    </section>
+
+    <div class="custom-cursor"></div>
+
+    <script>
+        $(document).ready(function() {
+            $('.menu-toggle').click(function() {
+                $('.nav-links').toggleClass('active');
+            });
+
+            $(document).on('mousemove', function(e) {
+                $('.custom-cursor').css({
+                    left: e.pageX,
+                    top: e.pageY
+                });
+            });
+        });
+
+        function startCountdown(endDate) {
+            let timerInterval = setInterval(function() {
+                let now = new Date().getTime();
+                let timeRemaining = endDate - now;
+
+                if (timeRemaining >= 0) {
+                    let days = Math.floor(timeRemaining / (1000 * 60 * 60 * 24));
+                    let hours = Math.floor((timeRemaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    let minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
+                    let seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
+
+                    document.getElementById("days").innerHTML = days < 10 ? '0' + days : days;
+                    document.getElementById("hours").innerHTML = hours < 10 ? '0' + hours : hours;
+                    document.getElementById("minutes").innerHTML = minutes < 10 ? '0' + minutes : minutes;
+                    document.getElementById("seconds").innerHTML = seconds < 10 ? '0' + seconds : seconds;
+                } else {
+                    clearInterval(timerInterval);
+                    document.getElementById("countdown").innerHTML = "SALE ENDED!";
+                }
+            }, 1000);
+        }
+
+        let saleEndDate = new Date("September 20, 2024 23:59:59").getTime();
+        startCountdown(saleEndDate);
+
+        
+    </script>
+
+</body>
+</html>
